@@ -10,14 +10,26 @@ enum GameState_e		Game::getState			( )
 };
 
 
+
 /* Constructor */		Game::Game				( )
 {
+	// Begin initializing.
 	this->game_state = GAMESTATE_INIT;
+	this->game_world = new World();
+
+	// Done initializing!
+	this->game_state = GAMESTATE_RUNNING;
 };
+
 
 
 /* Destructor */		Game::~Game				( )
 {
+	// Release memory.
+	delete this->game_world;
+
+	// Nullify/clear variables.
+	this->game_world = NULL;
 	this->game_state = GAMESTATE_NONE;
 };
 

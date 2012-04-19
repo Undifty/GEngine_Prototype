@@ -2,6 +2,8 @@
 #define GAME_H__
 
 #include <stdlib.h>
+#include "World.class.h"
+#include "Entity.class.h"
 
 
 /*
@@ -9,7 +11,7 @@
 *	that the Game-object can have. The current state
 *	can be retrieved by using the getState()-method.
 */
-enum GameState_e
+enum	GameState_e
 {
 	GAMESTATE_INIT,				// The Game-object is currently initializing.
 	GAMESTATE_RUNNING,			// Game is running.
@@ -26,6 +28,9 @@ class Game
 {
 private:
 	enum GameState_e		game_state;
+
+	World*					game_world;
+
 
 	static Game				*obj_instance;
 

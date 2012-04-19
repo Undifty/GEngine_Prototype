@@ -13,6 +13,8 @@ int main ( int argc, char * argv[] )
 		lv_Game->updateState();
 		lv_Game->updateAudio();
 		lv_Game->updateVideo();
+		
+		break; // Prevent looping until input is added.
 	}
 
 	Game::Tidy();
