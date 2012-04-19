@@ -35,7 +35,8 @@ namespace GFX
 		glShadeModel( GL_SMOOTH );
 
 		glCullFace( GL_BACK );
-		glFrontFace( GL_CCW );
+		//glFrontFace( GL_CCW );
+		glFrontFace( GL_CW );
 		glEnable( GL_CULL_FACE );
 
 		glClearColor( 0, 0, 0, 0 );
@@ -66,7 +67,7 @@ namespace GFX
 		glMatrixMode( GL_PROJECTION );
 
 		glLoadIdentity();
-		gluPerspective( 60.0, screen_ratio, 0.1, 1024.0 );
+		gluPerspective( 45.0f, screen_ratio, 1.0, 1024.0 );
 
 		glDepthFunc( GL_LEQUAL );
 		glEnable( GL_DEPTH_TEST );

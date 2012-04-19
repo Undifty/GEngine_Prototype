@@ -3,13 +3,13 @@
 
 /* Constructor */		Map::Map		( )
 {
-	map_width	= 1;
-	map_height	= 1;
+	map_width	= 16;
+	map_height	= 16;
 
-	vertices.push_back( MapVertex( 0, 0, 0 ) );
-	vertices.push_back( MapVertex( map_width, 0, 0 ) );
-	vertices.push_back( MapVertex( 0, map_height, 0 ) );
-	vertices.push_back( MapVertex( map_width, map_height, 0 ) );
+	vertices.push_back( MapVertex( -1.0f, -2.0f, -1.0f ) );
+	vertices.push_back( MapVertex( +1.0f, -1.0f, -1.0f ) );
+	vertices.push_back( MapVertex( -1.0f, +0.0f, +1.0f ) );
+	vertices.push_back( MapVertex( +1.0f, +1.0f, +1.0f ) );
 };
 
 
@@ -20,19 +20,24 @@
 
 void					Map::render		( )
 {
-	glBegin(GL_TRIANGLE_FAN);
+	glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		int n= vertices.size();
+		MapVertex v(0,0,0);
+		for ( int i=0 ; i<n ; i++ )
+		{
+			v = vertices[i];
+			glVertex3f( v.x, v.y, v.z );
+		}
+	glEnd();
 
-    glVertex3f(-1.0f, -0.5f, -4.0f);    // A
-    glVertex3f( 1.0f, -0.5f, -4.0f);    // B
-    glVertex3f( 0.0f,  0.5f, -4.0f);    // C
-
-    glVertex3f(-1.5f,  0.0f, -4.0f);    // D
-    glVertex3f(-1.8f, -1.0f, -4.0f);    // E
-    glVertex3f( 0.2f, -1.5f, -4.0f);    // F
-
-    glVertex3f( 1.0f, -0.5f, -4.0f);    // G
-
-    glEnd();
+	glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f( 0.0f, 0.0f, 0.0f ); //vertex 1
+	glVertex3f( 0.0f, 1.0f, 0.0f ); //vertex 2
+	glVertex3f( 1.0f, 0.0f, 0.0f ); //vertex 3
+	glVertex3f( 1.5f, 1.0f, 0.0f ); //vertex 4
+	glEnd();
 };
 
 
