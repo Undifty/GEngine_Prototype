@@ -6,6 +6,7 @@
 #include "UserInterface.class.h"
 #include "World.class.h"
 #include "Entity.class.h"
+#include "Camera.class.h"
 
 
 /*
@@ -33,7 +34,12 @@ private:
 
 	World*					game_world;
 	UserInterface*			game_ui;
+	Camera*					game_camera;
 
+	// temporary manages input, should be refactored into other class or function
+	bool keys[512];
+
+	int						step;
 
 	static Game				*obj_instance;
 

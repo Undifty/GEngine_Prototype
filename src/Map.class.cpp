@@ -6,10 +6,17 @@
 	map_width	= 16;
 	map_height	= 16;
 
+	/*
 	vertices.push_back( MapVertex( -1.0f, -2.0f, -1.0f ) );
 	vertices.push_back( MapVertex( +1.0f, -1.0f, -1.0f ) );
 	vertices.push_back( MapVertex( -1.0f, +0.0f, +1.0f ) );
 	vertices.push_back( MapVertex( +1.0f, +1.0f, +1.0f ) );
+	*/
+
+	vertices.push_back( MapVertex( 0, 0.0f, 0 ) );
+	vertices.push_back( MapVertex( map_width, 0.0f, 0 ) );
+	vertices.push_back( MapVertex( 0, +0.0f, map_height ) );
+	vertices.push_back( MapVertex( map_width, +0.0f, map_height ) );
 };
 
 
@@ -29,14 +36,6 @@ void					Map::render		( )
 			v = vertices[i];
 			glVertex3f( v.x, v.y, v.z );
 		}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_STRIP);
-		glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex3f( 0.0f, 0.0f, 0.0f ); //vertex 1
-	glVertex3f( 0.0f, 1.0f, 0.0f ); //vertex 2
-	glVertex3f( 1.0f, 0.0f, 0.0f ); //vertex 3
-	glVertex3f( 1.5f, 1.0f, 0.0f ); //vertex 4
 	glEnd();
 };
 

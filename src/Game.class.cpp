@@ -13,10 +13,13 @@ enum GameState_e		Game::getState			( )
 
 /* Constructor */		Game::Game				( )
 {
+	for ( int i=0 ; i<512 ; i++ ) keys[i] = false;
+
 	// Begin initializing.
 	this->game_state	= GAMESTATE_INIT;
 	this->game_ui		= new UserInterface();
 	this->game_world	= new World();
+	this->game_camera	= new Camera();
 
 	// Done initializing!
 	this->game_state = GAMESTATE_RUNNING;
@@ -29,10 +32,12 @@ enum GameState_e		Game::getState			( )
 	// Release memory.
 	delete this->game_world;
 	delete this->game_ui;
+	delete this->game_camera;
 
 	// Nullify/clear variables.
 	this->game_world	= NULL;
 	this->game_ui		= NULL;
+	this->game_camera	= NULL;
 	this->game_state	= GAMESTATE_NONE;
 };
 
@@ -56,6 +61,14 @@ void					Game::updateInput		( )
 					this->game_state = GAMESTATE_QUIT;
 					debug_log( "Quitting Game (ESCAPE was pressed)!" );
 				}
+				else
+				{
+					this->keys[ lv_Event.key.keysym.sym ] = true;
+				}
+				break;
+
+			case SDL_KEYUP:
+				this->keys[ lv_Event.key.keysym.sym ] = false;
 				break;
 
 			default:
@@ -68,7 +81,29 @@ void					Game::updateInput		( )
 void					Game::updateState		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
-	debug_log( "State-update!" );
+	step++;
+
+	Point3f new_pos = *(game_camera->getPoint());
+	if ( this->keys[ SDLK_UP ] )
+	{
+		new_pos.z += 0.25;
+	}
+	if ( this->keys[ SDLK_DOWN ] )
+	{
+		new_pos.z -= 0.25;
+	}
+	if ( this->keys[ SDLK_LEFT ] )
+	{
+		new_pos.x -= 0.25;
+	}
+	if ( this->keys[ SDLK_RIGHT ] )
+	{
+		new_pos.x += 0.25;
+	}
+	game_camera->getPoint()->x = new_pos.x;
+	game_camera->getPoint()->y = new_pos.y;
+	game_camera->getPoint()->z = new_pos.z;
+	//debug_log( "State-update!" );
 };
 
 
@@ -82,7 +117,16 @@ void					Game::updateVideo		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
 
-	gluLookAt( 0, 0, -30.0f, 0, 0, 0, 0, 1, 0 );
+	Vector3f	cam_targ	= *(game_camera->getTarget());
+	Vector3f	cam_up		= *(game_camera->getUp());
+	Point3f		cam_pos		= *(game_camera->getPoint());
+
+	gluLookAt( 
+		cam_targ.x, cam_targ.y, cam_targ.z, 
+		cam_pos.x,	cam_pos.y,	cam_pos.z, 
+		cam_up.x,	cam_up.y,	cam_up.z
+	);
+
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	GFX::Prepare3D();
