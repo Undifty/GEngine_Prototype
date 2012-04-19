@@ -37,21 +37,47 @@ enum GameState_e		Game::getState			( )
 
 void					Game::updateInput		( )
 {
+	SDL_Event lv_Event;
+	while ( SDL_PollEvent( &lv_Event ) )
+	{
+		switch ( lv_Event.type )
+		{
+			case SDL_QUIT:
+				this->game_state = GAMESTATE_QUIT;
+				debug_log( "Quitting Game (Window was closed)!" );
+				break;
+
+			case SDL_KEYDOWN:
+				if ( lv_Event.key.keysym.sym == SDLK_ESCAPE )
+				{
+					this->game_state = GAMESTATE_QUIT;
+					debug_log( "Quitting Game (ESCAPE was pressed)!" );
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
 };
 
 
 void					Game::updateState		( )
 {
+	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
+	debug_log( "State-update!" );
 };
 
 
 void					Game::updateAudio		( )
 {
+	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
 };
 
 
 void					Game::updateVideo		( )
 {
+	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
 };
 
 

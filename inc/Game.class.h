@@ -2,6 +2,7 @@
 #define GAME_H__
 
 #include <stdlib.h>
+#include <SDL.h>
 #include "World.class.h"
 #include "Entity.class.h"
 
@@ -16,7 +17,7 @@ enum	GameState_e
 	GAMESTATE_INIT,				// The Game-object is currently initializing.
 	GAMESTATE_RUNNING,			// Game is running.
 	GAMESTATE_PAUSED,			// Game is paused.
-	GAMESTATE_QUITTING,			// Game is currently quitting.
+	GAMESTATE_QUIT,				// Game is currently quitting.
 	GAMESTATE_NONE				// Game has quit, object should be destroyed.
 };
 

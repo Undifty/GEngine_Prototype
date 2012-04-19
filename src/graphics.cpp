@@ -27,7 +27,7 @@ namespace GFX
 				screen_height, 
 				screen_depth, 
 				screen_flags 
-		)) die( "Could not set VideoMode!" );
+		) == 0 ) die( "Could not set VideoMode!" );
 
 	};
 
