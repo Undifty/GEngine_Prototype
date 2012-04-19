@@ -11,7 +11,7 @@
 */
 enum GameState_e
 {
-	GAMESTATE_INITIALIZING,		// The Game-object is currently initializing.
+	GAMESTATE_INIT,				// The Game-object is currently initializing.
 	GAMESTATE_RUNNING,			// Game is running.
 	GAMESTATE_PAUSED,			// Game is paused.
 	GAMESTATE_QUITTING,			// Game is currently quitting.
@@ -35,29 +35,35 @@ private:
 	*/
 	Game (void);
 	virtual ~Game (void);
+
 public:
 
 	enum GameState_e		getState			( );
+
+	void					updateInput			( );
+	void					updateState			( );
+	void					updateAudio			( );
+	void					updateVideo			( );
 
 
 	/*
 	*	Initializes the Game-object.
 	*	Returns 0 on success and error code on failure.
 	*/
-	static int				Initialize		( );
+	static int				Initialize			( );
 
 
 	/*
 	*	Tidying up the Game-object.
 	*	Returns 0 on success and error code on failure.
 	*/
-	static int				Tidy			( );
+	static int				Tidy				( );
 
 
 	/*
 	*	Returns a pointer to the Game-object.
 	*/
-	static Game*			GetInstance		( );
+	static Game*			GetInstance			( );
 };
 
 #endif

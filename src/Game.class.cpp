@@ -23,6 +23,26 @@ enum GameState_e		Game::getState			( )
 
 
 
+void					Game::updateInput		( )
+{
+};
+
+
+void					Game::updateState		( )
+{
+};
+
+
+void					Game::updateAudio		( )
+{
+};
+
+
+void					Game::updateVideo		( )
+{
+};
+
+
 /**********************************
 *	STATIC PROPERTIES AND METHODS.
 ***********************************/

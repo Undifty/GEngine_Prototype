@@ -9,7 +9,10 @@ int main ( int argc, char * argv[] )
 
 	while ( lv_Game->getState() == GAMESTATE_RUNNING )
 	{
-		
+		lv_Game->updateInput();
+		lv_Game->updateState();
+		lv_Game->updateAudio();
+		lv_Game->updateVideo();
 	}
 
 	Game::Tidy();
