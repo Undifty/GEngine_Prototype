@@ -2,7 +2,8 @@
 #define GAME_H__
 
 #include <stdlib.h>
-#include <SDL.h>
+#include "graphics.h"
+#include "UserInterface.class.h"
 #include "World.class.h"
 #include "Entity.class.h"
 
@@ -31,6 +32,7 @@ private:
 	enum GameState_e		game_state;
 
 	World*					game_world;
+	UserInterface*			game_ui;
 
 
 	static Game				*obj_instance;

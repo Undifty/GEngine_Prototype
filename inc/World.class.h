@@ -13,6 +13,7 @@ public:
 	World ( );
 	virtual ~World ( );
 
+	void		render		( );
 };
 
 #endif

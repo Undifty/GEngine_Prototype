@@ -14,8 +14,9 @@ enum GameState_e		Game::getState			( )
 /* Constructor */		Game::Game				( )
 {
 	// Begin initializing.
-	this->game_state = GAMESTATE_INIT;
-	this->game_world = new World();
+	this->game_state	= GAMESTATE_INIT;
+	this->game_ui		= new UserInterface();
+	this->game_world	= new World();
 
 	// Done initializing!
 	this->game_state = GAMESTATE_RUNNING;
@@ -27,10 +28,12 @@ enum GameState_e		Game::getState			( )
 {
 	// Release memory.
 	delete this->game_world;
+	delete this->game_ui;
 
 	// Nullify/clear variables.
-	this->game_world = NULL;
-	this->game_state = GAMESTATE_NONE;
+	this->game_world	= NULL;
+	this->game_ui		= NULL;
+	this->game_state	= GAMESTATE_NONE;
 };
 
 
@@ -78,6 +81,16 @@ void					Game::updateAudio		( )
 void					Game::updateVideo		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
+
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	GFX::Prepare3D();
+	game_world->render();
+
+	GFX::Prepare2D();
+	game_ui->render();
+
+	SDL_GL_SwapBuffers();
 };
 
 

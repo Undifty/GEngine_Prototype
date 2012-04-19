@@ -8,17 +8,20 @@ int main ( int argc, char * argv[] )
 	GFX::Init();
 
 	Game::Initialize( );
-	Game * lv_Game = Game::GetInstance();
 
-	while ( lv_Game->getState() == GAMESTATE_RUNNING )
+	Game		*lv_Game	= Game::GetInstance();
+	GameState_e lv_State	= GAMESTATE_NONE;
+
+	do
 	{
 		lv_Game->updateInput();
 		lv_Game->updateState();
 		lv_Game->updateAudio();
 		lv_Game->updateVideo();
-		
-		//break; // Prevent looping until input is added.
+
+		lv_State = lv_Game->getState();
 	}
+	while ( lv_State == GAMESTATE_RUNNING || lv_State == GAMESTATE_PAUSED );
 
 	Game::Tidy();
 

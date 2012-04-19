@@ -10,6 +10,7 @@ namespace GFX
 		screen_height	= 0;
 		screen_depth	= 0;
 		screen_flags	= 0;
+		screen_ratio	= 0;
 
 		if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) die( "Could not initialize SDL!" );
 		atexit( SDL_Quit );
@@ -19,6 +20,7 @@ namespace GFX
 
 		screen_width	= 640;
 		screen_height	= 480;
+		screen_ratio	= (float) screen_width / (float) screen_height;
 		screen_depth	= video_info->vfmt->BitsPerPixel;
 		screen_flags	= SDL_OPENGL;
 
@@ -29,9 +31,44 @@ namespace GFX
 				screen_flags 
 		) == 0 ) die( "Could not set VideoMode!" );
 
+		// Setup OpenGL
+		glShadeModel( GL_SMOOTH );
+
+		glCullFace( GL_BACK );
+		glFrontFace( GL_CCW );
+		glEnable( GL_CULL_FACE );
+
+		glClearColor( 0, 0, 0, 0 );
 	};
 
 	void	Tidy	( )
 	{
+		SDL_Quit();
+	};
+
+
+	void	Prepare2D	( )
+	{
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity();
+		gluOrtho2D( 0.0f, screen_width, screen_height, 0.0f );
+
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
+		glTranslatef( 0.375, 0.375, 0.0 );
+
+		glDisable( GL_DEPTH_TEST );
+	};
+
+	void	Prepare3D	( )
+	{
+		glViewport(0, 0, screen_width, screen_height);
+		glMatrixMode( GL_PROJECTION );
+
+		glLoadIdentity();
+		gluPerspective( 60.0, screen_ratio, 0.1, 1024.0 );
+
+		glDepthFunc( GL_LEQUAL );
+		glEnable( GL_DEPTH_TEST );
 	};
 };
