@@ -41,7 +41,24 @@ void				Actor::render		( )
 	if ( actor_placement == ACTORPLACEMENT_RELATIVE && owner != NULL )
 	{
 			real_point += *(owner->getPoint());
+			float step = 0.25;
+			
+			glColor3f( 1.0f, 1.0f, 0.0f );
 
+			glBegin( GL_LINES );
+				glVertex3f( real_point.x, real_point.y - step, real_point.z );
+				glVertex3f( real_point.x, real_point.y + step, real_point.z );
+			glEnd();
+			
+			glBegin( GL_LINES );
+				glVertex3f( real_point.x - step, real_point.y, real_point.z );
+				glVertex3f( real_point.x + step, real_point.y, real_point.z );
+			glEnd();
 
+			glBegin( GL_LINES );
+				glVertex3f( real_point.x, real_point.y, real_point.z - step );
+				glVertex3f( real_point.x, real_point.y, real_point.z + step );
+			glEnd();
+			
 	}
 };

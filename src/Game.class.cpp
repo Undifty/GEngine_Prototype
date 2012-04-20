@@ -6,7 +6,7 @@
 
 enum GameState_e		Game::getState			( )
 {
-	return GAMESTATE_RUNNING;
+	return game_state;
 };
 
 
@@ -14,6 +14,8 @@ enum GameState_e		Game::getState			( )
 /* Constructor */		Game::Game				( )
 {
 	for ( int i=0 ; i<512 ; i++ ) keys[i] = false;
+
+	steps_state = 0;
 
 	clock_input.setRate(1000);
 	clock_state.setRate(16);
@@ -23,7 +25,14 @@ enum GameState_e		Game::getState			( )
 	actor_next	= 0;
 	actor_count = 0;
 
-	temp_ent = Entity();
+	temp_ent	= Entity();
+	/*
+	temp_ent.getPoint()->x = 2;
+	temp_ent.getPoint()->z = 4;
+	temp_ent.getPoint()->y = 1;
+	*/
+	temp_facing = Vector2f( 1, 0 );
+
 	actor[0].setOwner( &temp_ent );
 	actor_active.push_back( &actor[0] );
 	actor_count++;
@@ -37,7 +46,7 @@ enum GameState_e		Game::getState			( )
 	this->game_camera	= new Camera();
 
 	// Done initializing!
-	this->game_state = GAMESTATE_RUNNING;
+	this->game_state	= GAMESTATE_RUNNING;
 };
 
 
@@ -97,7 +106,7 @@ void					Game::updateState		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
 	if ( !clock_state.check() ) return /* Do Nothing */;
-	step++;
+	steps_state++;
 
 	Point3f new_pos = *(game_camera->getPoint());
 	if ( this->keys[ SDLK_UP ] )
@@ -119,6 +128,22 @@ void					Game::updateState		( )
 	game_camera->getPoint()->x = new_pos.x;
 	game_camera->getPoint()->y = new_pos.y;
 	game_camera->getPoint()->z = new_pos.z;
+
+	double angle = 0;
+	if ( this->keys[ SDLK_a ] )
+	{
+		angle = -PI / 36.0;
+	}
+	if ( this->keys[ SDLK_d ] )
+	{
+		angle = PI / 36.0;
+	}
+
+	double x = temp_facing.x;
+	double y = temp_facing.y;
+		
+	temp_facing.x = ( x * cos(angle) - y * sin(angle) );
+	temp_facing.y = ( y * cos(angle) + x * sin(angle) );
 };
 
 

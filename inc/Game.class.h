@@ -6,6 +6,7 @@
 #include "graphics.h"
 #include "common.h"
 #include "UserInterface.class.h"
+#include "Vector.class.h"
 #include "World.class.h"
 #include "Entity.class.h"
 #include "Camera.class.h"
@@ -40,6 +41,7 @@ private:
 	TimeInterval			clock_state;
 	TimeInterval			clock_audio;
 	TimeInterval			clock_video;
+	long					steps_state;
 
 	enum GameState_e		game_state;
 
@@ -47,17 +49,13 @@ private:
 	UserInterface*			game_ui;
 	Camera*					game_camera;
 
-	Entity					temp_ent;
-
 	int						actor_count;
 	int						actor_next;
 	Actor					actor[1024];
 	Actor_Arr				actor_active;
 
 	// temporary manages input, should be refactored into other class or function
-	bool keys[512];
-
-	int						step;
+	bool keys[1024];
 
 	static Game				*obj_instance;
 
@@ -69,6 +67,10 @@ private:
 	virtual ~Game (void);
 
 public:
+
+	// Temporary variables.
+	Entity					temp_ent;
+	Vector2f				temp_facing;
 
 	enum GameState_e		getState			( );
 

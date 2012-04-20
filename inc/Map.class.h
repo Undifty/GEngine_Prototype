@@ -7,12 +7,13 @@
 class MapVertex;
 
 typedef std::vector<MapVertex>		Vertex_Arr1D;
+typedef std::vector<Vertex_Arr1D>	Vertex_Arr2D;
 
 
 class Map
 {
 private:
-	Vertex_Arr1D		vertices;
+	Vertex_Arr2D		vertices;
 
 	int					map_width;
 	int					map_height;

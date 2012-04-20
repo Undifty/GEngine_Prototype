@@ -6,8 +6,8 @@
 class Entity
 {
 private:
-	Point3f		*position;
-	Vector3f	*facing;
+	Point3f		position;
+	Vector3f	facing;
 
 public:
 	Entity ( );

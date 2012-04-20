@@ -7,47 +7,49 @@
 	map_height	= 32;
 
 
-	for ( int z=0 ; z<map_height-1 ; z++ )
+	for ( int row=0 ; row<map_height ; row++ )
 	{
-		for ( int x=0 ; x<map_width ; x++ )
+		vertices.push_back( Vertex_Arr1D() );
+		for ( int col=0 ; col<map_width ; col++ )
 		{
-			vertices.push_back( MapVertex( x, 0.0f, z ) );
-			vertices.push_back( MapVertex( x, 0.0f, z+1.0 ) );
+			vertices[row].push_back( MapVertex( col, -1, row ) );
 		}
 	}
-
-	/*
-	vertices.push_back( MapVertex( 0, 0.0f, 0 ) );
-	vertices.push_back( MapVertex( map_width, 0.0f, 0 ) );
-	vertices.push_back( MapVertex( map_width, +0.0f, map_height ) );
-	vertices.push_back( MapVertex( 0, +0.0f, map_height ) );
-	*/
 };
 
 
 /* Destructor */		Map::~Map		( )
 {
+	for ( int row=0 ; row<map_height ; row++ )
+	{
+		vertices[row].clear();
+	}
+	vertices.clear();
 };
 
 
 void					Map::render		( )
 {
-	float r[] = {1.0, 1.0, 0.0, 0.0};
-	float g[] = {1.0, 0.0, 1.0, 0.0};
-	float b[] = {1.0, 0.0, 0.0, 1.0};
-
+	// Draw terrain as Wireframe
 	GFX::Wireframe( true );
-	glBegin(GL_TRIANGLE_STRIP);
-		glColor3f(0.5f, 0.5f, 0.5f);
-		int n= vertices.size();
-		MapVertex v(0,0,0);
-		for ( int i=0 ; i<n ; i++ )
+
+	MapVertex *v = NULL;
+	glColor3f(0.5f, 0.5f, 0.5f);
+	for ( int z=0 ; z<map_height-1 ; z++ )
+	{
+		glBegin(GL_TRIANGLE_STRIP);
+		for ( int x=0 ; x<map_width ; x++ )
 		{
-			//glColor3f( r[i], g[i], b[i] );
-			v = vertices[i];
-			glVertex3f( v.x, v.y, v.z );
+			v = &vertices[z][x];
+			glVertex3f( v->x, v->y, v->z );
+
+			v = &vertices[z+1][x];
+			glVertex3f( v->x, v->y, v->z );
 		}
-	glEnd();
+		glEnd();
+	}
+
+	// Reset
 	GFX::Wireframe( false );
 };
 

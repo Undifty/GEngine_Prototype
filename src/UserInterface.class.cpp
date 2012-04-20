@@ -32,4 +32,15 @@ void				UserInterface::render				( )
 		glVertex2f( x + sin(i) * radius, y + cos(i) * radius );
 	}
 	glEnd();
+
+	Game* lv_Game = Game::GetInstance();
+
+	Vector2f facing = (lv_Game->temp_facing);
+	facing.normalize();
+	facing = facing * (radius*0.9);
+
+	glBegin( GL_LINES );
+		glVertex2f(x, y);
+		glVertex2f(x+facing.x, y+facing.y);
+	glEnd();
 };

@@ -44,7 +44,7 @@ namespace GFX
 
 	void	Tidy	( )
 	{
-		SDL_Quit();
+		//SDL_Quit();
 	};
 
 
