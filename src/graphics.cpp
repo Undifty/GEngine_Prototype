@@ -72,4 +72,18 @@ namespace GFX
 		glDepthFunc( GL_LEQUAL );
 		glEnable( GL_DEPTH_TEST );
 	};
+
+
+	void	Wireframe		( bool on )
+	{
+		render_wireframe = on;
+		if ( on )
+		{
+			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		}
+		else
+		{
+			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+		}
+	};
 };

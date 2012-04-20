@@ -15,6 +15,21 @@ enum GameState_e		Game::getState			( )
 {
 	for ( int i=0 ; i<512 ; i++ ) keys[i] = false;
 
+	clock_input.setRate(1000);
+	clock_state.setRate(16);
+	clock_audio.setRate(1);
+	clock_video.setRate(30);
+
+	actor_next	= 0;
+	actor_count = 0;
+
+	temp_ent = Entity();
+	actor[0].setOwner( &temp_ent );
+	actor_active.push_back( &actor[0] );
+	actor_count++;
+	actor_next++;
+
+
 	// Begin initializing.
 	this->game_state	= GAMESTATE_INIT;
 	this->game_ui		= new UserInterface();
@@ -81,6 +96,7 @@ void					Game::updateInput		( )
 void					Game::updateState		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
+	if ( !clock_state.check() ) return /* Do Nothing */;
 	step++;
 
 	Point3f new_pos = *(game_camera->getPoint());
@@ -103,26 +119,27 @@ void					Game::updateState		( )
 	game_camera->getPoint()->x = new_pos.x;
 	game_camera->getPoint()->y = new_pos.y;
 	game_camera->getPoint()->z = new_pos.z;
-	//debug_log( "State-update!" );
 };
 
 
 void					Game::updateAudio		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
+	if ( !clock_audio.check() ) return /* Do Nothing */;
 };
 
 
 void					Game::updateVideo		( )
 {
 	if ( this->game_state != GAMESTATE_RUNNING ) return /* Do Nothing */;
+	if ( !clock_video.check() ) return /* Do Nothing */;
 
 	Vector3f	cam_targ	= *(game_camera->getTarget());
 	Vector3f	cam_up		= *(game_camera->getUp());
 	Point3f		cam_pos		= *(game_camera->getPoint());
 
 	gluLookAt( 
-		cam_targ.x, cam_targ.y, cam_targ.z, 
+		cam_pos.x + cam_targ.x, cam_pos.y + cam_targ.y, cam_pos.z + cam_targ.z, 
 		cam_pos.x,	cam_pos.y,	cam_pos.z, 
 		cam_up.x,	cam_up.y,	cam_up.z
 	);
@@ -131,6 +148,24 @@ void					Game::updateVideo		( )
 
 	GFX::Prepare3D();
 	game_world->render();
+	int n = actor_active.size();
+	for ( int i=0 ; i<n ; i++ )
+	{
+		actor_active[i]->render();
+	}
+	
+
+	Vector3f xv( 10, 0, 0 );
+	Vector3f yv( 0, 10, 0 );
+	Vector3f zv( 0, 0, 10 );
+	Point3f orig( 0, 0, 0 );
+
+	xv.render( &orig, 1, 0, 0 );
+	yv.render( &orig, 0, 1, 0 );
+	zv.render( &orig, 0, 0, 1 );
+
+	Point3f center( 8, 2, 8 );
+	xv.render( &center, 1, 0, 1 );
 
 	GFX::Prepare2D();
 	game_ui->render();

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstring>
 #include "common.h"
+#include "graphics.h"
 
 class Point2f
 {
@@ -39,6 +40,7 @@ public:
 	// Operators
 	Point3f operator-( Point3f );
 	Point3f operator+( Point3f );
+	Point3f operator+=( Point3f );
 	Point3f operator*( float );
 	Point3f operator/( float );
 	Point3f operator=( Point3f );
@@ -96,6 +98,9 @@ public:
 	void			negate			( );
 	Vector3f		crossWith		( Vector3f );
 	double			dotProduct		( Vector3f );
+
+	void			render			( Point3f* );
+	void			render			( Point3f*, float, float, float );
 };
 
 #endif

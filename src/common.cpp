@@ -49,3 +49,45 @@ int		s2i	( std::string s )
 {
   return atoi( s.c_str() );
 }
+
+
+/*
+*	TimeInterval-class.
+*/
+/* Constructor */	TimeInterval::TimeInterval		( )
+{
+	lastUpdate		= SDL_GetTicks();
+	waitDuration	= 0;
+};
+
+/* Constructor */	TimeInterval::TimeInterval		( int step_sec )
+{
+	lastUpdate		= SDL_GetTicks();
+	setRate( step_sec );
+};
+
+
+void				TimeInterval::setRate			( int step_sec )
+{
+	if ( step_sec < 1 ) step_sec = 1;
+	waitDuration	= 1000.0 / float( step_sec );
+};
+
+
+bool				TimeInterval::check				( )
+{
+	int currentTime = SDL_GetTicks();
+	if ( lastUpdate + waitDuration <= currentTime )
+	{
+		lastUpdate = currentTime;
+		return true;
+	}
+	return false;
+};
+
+
+int					TimeInterval::getSteps			( )
+{
+	int currentTime = SDL_GetTicks();
+	return int( (currentTime - lastUpdate) / waitDuration );
+};

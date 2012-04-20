@@ -18,7 +18,7 @@ namespace GFX
 		int						screen_depth;
 		int						screen_flags;
 		float					screen_ratio;
-
+		bool					render_wireframe;
 	};
 
 	void	Init		( );
@@ -26,6 +26,8 @@ namespace GFX
 
 	void	Prepare2D	( );
 	void	Prepare3D	( );
+
+	void	Wireframe	( bool );
 };
 
 #endif

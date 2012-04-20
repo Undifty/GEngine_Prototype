@@ -30,3 +30,11 @@ Point3f*				Camera::getPoint		( )
 {
 	return &m_position;
 };
+
+
+void					Camera::render			( )
+{
+	m_target.render( &m_position, 1.0, 0.5, 0.5 );
+	m_right.render( &m_position, 0.5, 1.0, 0.5 );
+	m_up.render( &m_position, 0.5, 0.5, 1.0 );
+};

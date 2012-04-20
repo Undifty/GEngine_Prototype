@@ -18,6 +18,8 @@ public:
 	Vector3f*	getTarget ( );
 	Vector3f*	getUp ( );
 	Point3f*	getPoint ( );
+
+	void		render	( );
 };
 
 #endif

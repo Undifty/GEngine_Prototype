@@ -76,6 +76,14 @@ Point3f			Point3f::operator+		( Point3f p )
 	return Point3f( x+p.x, y+p.y, z+p.z );
 }
 
+Point3f			Point3f::operator+=		( Point3f p )
+{
+	x += p.x;
+	y += p.y;
+	z += p.z;
+	return *this;
+}
+
 Point3f			Point3f::operator-		( Point3f p )
 {
 	return Point3f( x-p.x, y-p.y, z-p.z );
@@ -264,3 +272,31 @@ double				Vector3f::dotProduct	( Vector3f v )
 {
 	return (x * v.x) + (y * v.y) + (z * v.z);
 }
+
+
+
+void				Vector3f::render		( Point3f * p )
+{
+	this->render( p,  1.0f, 1.0f, 1.0f );
+};
+
+
+void				Vector3f::render		( Point3f * p, float r, float g, float b )
+{
+	float radius = 0.1;
+	glBegin( GL_LINE_LOOP );
+		glColor3f( r, g, b );
+		float max = 2*PI;
+		float step = PI/36.0;
+		for ( float i=0 ; i<max ; i+=step )
+		{
+			glVertex3f( p->x + sin(i) * radius, p->y + cos(i) * radius, p->z );
+		}
+	glEnd();
+
+	glBegin( GL_LINES );
+		glColor3f( r, g, b );
+		glVertex3f( p->x, p->y, p->z );
+		glVertex3f( x + p->x, y + p->y, z + p->z );
+	glEnd();
+};
