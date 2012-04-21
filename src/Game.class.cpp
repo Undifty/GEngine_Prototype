@@ -26,6 +26,8 @@ enum GameState_e		Game::getState			( )
 	actor_count = 0;
 
 	temp_ent	= Entity();
+	Point3f start_pos(1,0.05,1);
+	temp_ent.setPoint( &start_pos );
 	/*
 	temp_ent.getPoint()->x = 2;
 	temp_ent.getPoint()->z = 4;
@@ -34,6 +36,7 @@ enum GameState_e		Game::getState			( )
 	temp_facing = Vector2f( 1, 0 );
 
 	actor[0].setOwner( &temp_ent );
+	actor[0].setOffset( ACTORPLACEMENT_RELATIVE, Point3f(0,0,0) );
 	actor_active.push_back( &actor[0] );
 	actor_count++;
 	actor_next++;
@@ -109,25 +112,56 @@ void					Game::updateState		( )
 	steps_state++;
 
 	Point3f new_pos = *(game_camera->getPoint());
-	if ( this->keys[ SDLK_UP ] )
-	{
-		new_pos.z += 0.25;
-	}
-	if ( this->keys[ SDLK_DOWN ] )
+	if ( this->keys[ SDLK_KP8 ] )
 	{
 		new_pos.z -= 0.25;
 	}
-	if ( this->keys[ SDLK_LEFT ] )
+	if ( this->keys[ SDLK_KP2 ] )
+	{
+		new_pos.z += 0.25;
+	}
+	if ( this->keys[ SDLK_KP4 ] )
 	{
 		new_pos.x -= 0.25;
 	}
-	if ( this->keys[ SDLK_RIGHT ] )
+	if ( this->keys[ SDLK_KP6 ] )
 	{
 		new_pos.x += 0.25;
 	}
 	game_camera->getPoint()->x = new_pos.x;
 	game_camera->getPoint()->y = new_pos.y;
 	game_camera->getPoint()->z = new_pos.z;
+
+	Vector3f ent_fac_vec = *(temp_ent.getFacing());
+	double facing_angle = 0;
+	if ( this->keys[ SDLK_LEFT ] )
+	{
+		facing_angle = -PI / 36.0;
+	}
+	if ( this->keys[ SDLK_RIGHT ])
+	{
+		facing_angle = PI / 36.0;
+	}
+	double fx = ent_fac_vec.x;
+	double fy = ent_fac_vec.z;
+	ent_fac_vec.x = ( fx * cos(facing_angle) - fy * sin(facing_angle) );
+	ent_fac_vec.z = ( fy * cos(facing_angle) + fx * sin(facing_angle) );
+	ent_fac_vec.normalize();
+
+	temp_ent.setFacing( &ent_fac_vec );
+
+	
+	Point3f ent_new_pos = *(temp_ent.getPoint());
+	if ( this->keys[ SDLK_UP ] )
+	{
+		ent_new_pos += (ent_fac_vec * 0.25);
+	}
+	if ( this->keys[ SDLK_DOWN ] )
+	{
+		ent_new_pos -= (ent_fac_vec * 0.25);
+	}
+	temp_ent.setPoint( &ent_new_pos );
+
 
 	double angle = 0;
 	if ( this->keys[ SDLK_a ] )

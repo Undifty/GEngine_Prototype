@@ -60,5 +60,7 @@ void				Actor::render		( )
 				glVertex3f( real_point.x, real_point.y, real_point.z + step );
 			glEnd();
 			
+			Vector3f fac = *(owner->getFacing());
+			fac.render( owner->getPoint() );
 	}
 };

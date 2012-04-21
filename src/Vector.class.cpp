@@ -89,6 +89,14 @@ Point3f			Point3f::operator-		( Point3f p )
 	return Point3f( x-p.x, y-p.y, z-p.z );
 }
 
+Point3f			Point3f::operator-=		( Point3f p )
+{
+	x -= p.x;
+	y -= p.y;
+	z -= p.z;
+	return *this;
+}
+
 Point3f			Point3f::operator*		( float f )
 {
 	return Point3f( x*f, y*f, z*f );

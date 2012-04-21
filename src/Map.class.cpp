@@ -6,7 +6,7 @@
 	map_width	= 32;
 	map_height	= 32;
 
-	float height = -1;
+	float height = 0;
 
 	for ( int row=0 ; row<map_height ; row++ )
 	{

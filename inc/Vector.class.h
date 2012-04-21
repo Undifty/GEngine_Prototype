@@ -41,6 +41,7 @@ public:
 	Point3f operator-( Point3f );
 	Point3f operator+( Point3f );
 	Point3f operator+=( Point3f );
+	Point3f operator-=( Point3f );
 	Point3f operator*( float );
 	Point3f operator/( float );
 	Point3f operator=( Point3f );

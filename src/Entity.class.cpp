@@ -45,4 +45,18 @@ void					Entity::setFacingPoint		( Point3f* p_TargetPoint )
 };
 
 
+void					Entity::setPoint			( Point3f *p_NewPoint )
+{
+	position.x = (p_NewPoint->x);
+	position.y = (p_NewPoint->y);
+	position.z = (p_NewPoint->z);
+};
+
+
+void					Entity::setFacing			( Vector3f *p_NewFacing )
+{
+	facing.x = (p_NewFacing->x);
+	facing.y = (p_NewFacing->y);
+	facing.z = (p_NewFacing->z);
+};
 

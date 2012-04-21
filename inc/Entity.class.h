@@ -17,6 +17,8 @@ public:
 	Point3f*		getPoint		( );
 	Vector3f*		getFacing		( );
 	void			setFacingPoint	( Point3f* );
+	void			setPoint		( Point3f* );
+	void			setFacing		( Vector3f* );
 };
 
 #endif
