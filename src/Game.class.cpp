@@ -50,6 +50,8 @@ enum GameState_e		Game::getState			( )
 	this->game_ui		= new UserInterface();
 	this->game_world	= new World();
 	this->game_camera	= new Camera();
+	game_world->getMap()->resizeCanvas( 256, 256 );
+	game_world->getMap()->parseHeightmap( "images.bmp", 0, 0 );
 
 	// Done initializing!
 	this->game_state	= GAMESTATE_RUNNING;
@@ -162,7 +164,6 @@ void					Game::updateState		( )
 
 	temp_facing.x = ent_fac_vec.x;
 	temp_facing.y = ent_fac_vec.z;
-	
 
 	game_camera->setTarget( temp_ent.getPoint(), 4.0 );
 };
@@ -192,9 +193,36 @@ void					Game::updateVideo		( )
 	);
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	/*
+	glEnable( GL_LIGHT0 );
+	glEnable( GL_LIGHT1 );
+	// Adding Light
+	GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; //Color(0.2, 0.2, 0.2)
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+
+	//Add positioned light
+	Point3f lpos = *(temp_ent.getPoint());
+    GLfloat lightColor0[] = {0.7f, 0.7f, 0.7f, 1.0f}; //Color (0.5, 0.5, 0.5)
+    GLfloat lightPos0[] = {lpos.x, lpos.y, lpos.z, 1.0f}; //Positioned at (4, 0, 8)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+
+	//Add directed light
+    GLfloat lightColor1[] = {0.5f, 0.5f, 0.5f, 1.0f}; //Color (0.5, 0.2, 0.2)
+    //Coming from the direction (-1, 0.5, 0.5)
+    GLfloat lightPos1[] = {-1, 0.5, 0.5, 0.0f};
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+    glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+	*/
 
 	GFX::Prepare3D();
 	game_world->render();
+
+	/*
+	glDisable( GL_LIGHT0 );
+	glDisable( GL_LIGHT1 );
+	*/
+
 	int n = actor_active.size();
 	for ( int i=0 ; i<n ; i++ )
 	{

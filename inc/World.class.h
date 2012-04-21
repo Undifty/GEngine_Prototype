@@ -14,6 +14,7 @@ public:
 	virtual ~World ( );
 
 	void		render		( );
+	Map*		getMap		( );
 };
 
 #endif

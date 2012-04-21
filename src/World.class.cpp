@@ -18,3 +18,10 @@ void					World::render		( )
 {
 	world_map->render();
 };
+
+
+
+Map*				World::getMap		( )
+{
+	return this->world_map;
+};

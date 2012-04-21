@@ -51,8 +51,8 @@ void					Camera::setTarget		( Point3f *p_Target, float p_Dist )
 	new_cam_pos = new_cam_pos - mod;
 
 	m_position = new_cam_pos;
-	debug_log( "cam_target: " + m_target.toString() );
-	debug_log( "cam position: " + m_position.toString() );
+	//debug_log( "cam_target: " + m_target.toString() );
+	//debug_log( "cam position: " + m_position.toString() );
 };
 
 

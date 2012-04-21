@@ -1,6 +1,8 @@
 #ifndef MAP_H__
 #define MAP_H__
 
+#include <iostream>
+#include <cstring>
 #include <vector>
 #include "graphics.h"
 
@@ -21,6 +23,9 @@ private:
 public:
 	Map ( );
 	virtual ~Map ( );
+
+	void		parseHeightmap	( std::string, int, int );
+	void		resizeCanvas	( int, int );
 
 	void		render		( );
 };

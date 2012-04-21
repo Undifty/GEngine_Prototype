@@ -31,6 +31,12 @@ namespace GFX
 	int		GetHeight	( );
 
 	void	Wireframe	( bool );
+
+	void	SetPixel	( SDL_Surface*, int, int, Uint32 );
+	Uint32	GetPixel	( SDL_Surface*, int, int );
+	int		GetBlue		( Uint32 );
+	int		GetGreen	( Uint32 );
+	int		GetRed		( Uint32 );
 };
 
 #endif

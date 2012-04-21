@@ -38,6 +38,8 @@ namespace GFX
 		//glFrontFace( GL_CCW );
 		glFrontFace( GL_CW );
 		glEnable( GL_CULL_FACE );
+		//glEnable( GL_LIGHTING );
+		glEnable( GL_NORMALIZE );
 
 		glClearColor( 0, 0, 0, 0 );
 	};
@@ -67,7 +69,7 @@ namespace GFX
 		glMatrixMode( GL_PROJECTION );
 
 		glLoadIdentity();
-		gluPerspective( 45.0f, screen_ratio, 1.0, 1024.0 );
+		gluPerspective( 45.0f, screen_ratio, 0.1, 1024.0 );
 
 		glDepthFunc( GL_LEQUAL );
 		glEnable( GL_DEPTH_TEST );
@@ -97,4 +99,30 @@ namespace GFX
 	{
 		return screen_height;
 	};
+
+
+	Uint32 GetPixel ( SDL_Surface * map, int p_x, int p_y )
+	{
+		int bpp = map->format->BytesPerPixel;
+		Uint8 * p = (Uint8*) map->pixels + p_y * map->pitch + p_x * bpp;
+    
+		switch ( bpp )
+		{
+			case 1: 	return *p;
+			case 2:	return *(Uint16*)p;
+			case 3:	return SDL_BYTEORDER == SDL_BIG_ENDIAN? p[0]<<16 | p[1] << 8 | p[2]: p[0] | p[1] << 8 | p[2] << 16;
+			case 4:	return *(Uint32*)p;
+			default: 	return 0;
+		}
+	};
+  
+	void SetPixel ( SDL_Surface * p_s, int p_x, int p_y, Uint32 p_color )
+	{
+		Uint32* mem = (Uint32*) p_s->pixels;
+		mem[ p_y * p_s->w + p_x ] = p_color;
+	}
+
+	int GetRed ( Uint32 i ) { return (i & 0x00FF0000) >> 16; };
+	int GetGreen ( Uint32 i ) { return (i & 0x0000FF00) >> 8; };
+	int GetBlue ( Uint32 i ) { return (i & 0x000000FF) >> 0; };
 };
