@@ -19,6 +19,10 @@ public:
 	Vector3f*	getUp ( );
 	Point3f*	getPoint ( );
 
+	void		rotateLeft ( float );
+
+	void		setTarget ( Point3f *, float );
+
 	void		render	( );
 };
 

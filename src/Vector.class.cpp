@@ -245,9 +245,10 @@ Vector3f		Vector3f::operator=		( Point3f p )
 
 void			Vector3f::normalize		( )
 {
-	x /= length();
-	y /= length();
-	z /= length();
+	double len = length();
+	x /= len;
+	y /= len;
+	z /= len;
 }
 
 float			Vector3f::length		( )

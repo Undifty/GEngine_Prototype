@@ -27,6 +27,9 @@ namespace GFX
 	void	Prepare2D	( );
 	void	Prepare3D	( );
 
+	int		GetWidth	( );
+	int		GetHeight	( );
+
 	void	Wireframe	( bool );
 };
 

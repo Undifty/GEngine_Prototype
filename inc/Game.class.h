@@ -56,6 +56,9 @@ private:
 
 	// temporary manages input, should be refactored into other class or function
 	bool keys[1024];
+	float	mouse_step_x;
+	float	mouse_step_y;
+	float	mouse_sensitivity;
 
 	static Game				*obj_instance;
 

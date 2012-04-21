@@ -14,6 +14,9 @@ enum GameState_e		Game::getState			( )
 /* Constructor */		Game::Game				( )
 {
 	for ( int i=0 ; i<512 ; i++ ) keys[i] = false;
+	mouse_step_x = 0;
+	mouse_step_y = 0;
+	mouse_sensitivity = 1.0;
 
 	steps_state = 0;
 
@@ -26,7 +29,7 @@ enum GameState_e		Game::getState			( )
 	actor_count = 0;
 
 	temp_ent	= Entity();
-	Point3f start_pos(1,0.05,1);
+	Point3f start_pos(0,0.05,0);
 	temp_ent.setPoint( &start_pos );
 	/*
 	temp_ent.getPoint()->x = 2;
@@ -98,6 +101,11 @@ void					Game::updateInput		( )
 				this->keys[ lv_Event.key.keysym.sym ] = false;
 				break;
 
+			case SDL_MOUSEMOTION:
+				mouse_step_x += lv_Event.motion.xrel;
+				mouse_step_y += lv_Event.motion.yrel;
+				break;
+
 			default:
 				break;
 		}
@@ -111,37 +119,26 @@ void					Game::updateState		( )
 	if ( !clock_state.check() ) return /* Do Nothing */;
 	steps_state++;
 
-	Point3f new_pos = *(game_camera->getPoint());
-	if ( this->keys[ SDLK_KP8 ] )
-	{
-		new_pos.z -= 0.25;
-	}
-	if ( this->keys[ SDLK_KP2 ] )
-	{
-		new_pos.z += 0.25;
-	}
-	if ( this->keys[ SDLK_KP4 ] )
-	{
-		new_pos.x -= 0.25;
-	}
-	if ( this->keys[ SDLK_KP6 ] )
-	{
-		new_pos.x += 0.25;
-	}
-	game_camera->getPoint()->x = new_pos.x;
-	game_camera->getPoint()->y = new_pos.y;
-	game_camera->getPoint()->z = new_pos.z;
 
 	Vector3f ent_fac_vec = *(temp_ent.getFacing());
 	double facing_angle = 0;
 	if ( this->keys[ SDLK_LEFT ] )
 	{
 		facing_angle = -PI / 36.0;
+		game_camera->rotateLeft(-PI/36.0);
 	}
 	if ( this->keys[ SDLK_RIGHT ])
 	{
 		facing_angle = PI / 36.0;
+		game_camera->rotateLeft(PI/36.0);
 	}
+
+	float xrot = mouse_sensitivity * 2*PI * ( mouse_step_x / float(GFX::GetWidth()));
+	facing_angle += xrot;
+	game_camera->rotateLeft( xrot );
+	mouse_step_x = 0;
+	mouse_step_y = 0;
+
 	double fx = ent_fac_vec.x;
 	double fy = ent_fac_vec.z;
 	ent_fac_vec.x = ( fx * cos(facing_angle) - fy * sin(facing_angle) );
@@ -152,32 +149,22 @@ void					Game::updateState		( )
 
 	
 	Point3f ent_new_pos = *(temp_ent.getPoint());
-	if ( this->keys[ SDLK_UP ] )
+	if ( this->keys[ SDLK_UP ] || this->keys[ SDLK_w ] )
 	{
 		ent_new_pos += (ent_fac_vec * 0.25);
 	}
-	if ( this->keys[ SDLK_DOWN ] )
+	if ( this->keys[ SDLK_DOWN ] || this->keys[ SDLK_s ] )
 	{
 		ent_new_pos -= (ent_fac_vec * 0.25);
 	}
 	temp_ent.setPoint( &ent_new_pos );
 
 
-	double angle = 0;
-	if ( this->keys[ SDLK_a ] )
-	{
-		angle = -PI / 36.0;
-	}
-	if ( this->keys[ SDLK_d ] )
-	{
-		angle = PI / 36.0;
-	}
+	temp_facing.x = ent_fac_vec.x;
+	temp_facing.y = ent_fac_vec.z;
+	
 
-	double x = temp_facing.x;
-	double y = temp_facing.y;
-		
-	temp_facing.x = ( x * cos(angle) - y * sin(angle) );
-	temp_facing.y = ( y * cos(angle) + x * sin(angle) );
+	game_camera->setTarget( temp_ent.getPoint(), 4.0 );
 };
 
 
@@ -197,10 +184,11 @@ void					Game::updateVideo		( )
 	Vector3f	cam_up		= *(game_camera->getUp());
 	Point3f		cam_pos		= *(game_camera->getPoint());
 
-	gluLookAt( 
-		cam_pos.x + cam_targ.x, cam_pos.y + cam_targ.y, cam_pos.z + cam_targ.z, 
-		cam_pos.x,	cam_pos.y,	cam_pos.z, 
-		cam_up.x,	cam_up.y,	cam_up.z
+	/* gluLookAt( eye, target, up ) */
+	gluLookAt(
+		cam_pos.x,					cam_pos.y,					cam_pos.z, 
+		cam_pos.x + cam_targ.x,		cam_pos.y + cam_targ.y,		cam_pos.z + cam_targ.z, 
+		cam_up.x,					cam_up.y,					cam_up.z
 	);
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -222,9 +210,6 @@ void					Game::updateVideo		( )
 	xv.render( &orig, 1, 0, 0 );
 	yv.render( &orig, 0, 1, 0 );
 	zv.render( &orig, 0, 0, 1 );
-
-	Point3f center( 8, 2, 8 );
-	xv.render( &center, 1, 0, 1 );
 
 	GFX::Prepare2D();
 	game_ui->render();

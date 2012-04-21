@@ -3,7 +3,7 @@
 /* Constructor */		Entity::Entity		( )
 {
 	position	= Point3f( 0, 0, 0 );
-	facing		= Vector3f( 1, 0, 0 );
+	facing		= Vector3f( 0, 0, 30 );
 };
 
 

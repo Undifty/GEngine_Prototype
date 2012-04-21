@@ -86,4 +86,15 @@ namespace GFX
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		}
 	};
+
+
+	int		GetWidth		( )
+	{
+		return screen_width;
+	};
+
+	int		GetHeight		( )
+	{
+		return screen_height;
+	};
 };

@@ -13,6 +13,14 @@
 		vertices.push_back( Vertex_Arr1D() );
 		for ( int col=0 ; col<map_width ; col++ )
 		{
+			if ( row == 0 || col == 0 || row == map_height-1 ||col == map_width-1 )
+			{
+				height = 0.5;
+			}
+			else
+			{
+				height = 0;
+			}
 			vertices[row].push_back( MapVertex( col, height, row ) );
 		}
 	}
