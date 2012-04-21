@@ -35,16 +35,21 @@ void					Map::render		( )
 	GFX::Wireframe( true );
 
 	MapVertex *v = NULL;
-	glColor3f(0.5f, 0.5f, 0.5f);
+	float col = 0;
 	for ( int z=0 ; z<map_height-1 ; z++ )
 	{
 		glBegin(GL_TRIANGLE_STRIP);
 		for ( int x=0 ; x<map_width ; x++ )
 		{
+			
 			v = &vertices[z+1][x];
+			col = (16+v->y)/32;
+			glColor3f(col, col, col);
 			glVertex3f( v->x, v->y, v->z );
 
 			v = &vertices[z][x];
+			col = (16+v->y)/32;
+			glColor3f(col, col, col);
 			glVertex3f( v->x, v->y, v->z );
 		}
 		glEnd();
