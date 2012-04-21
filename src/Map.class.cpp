@@ -6,13 +6,14 @@
 	map_width	= 32;
 	map_height	= 32;
 
+	float height = -1;
 
 	for ( int row=0 ; row<map_height ; row++ )
 	{
 		vertices.push_back( Vertex_Arr1D() );
 		for ( int col=0 ; col<map_width ; col++ )
 		{
-			vertices[row].push_back( MapVertex( col, -1, row ) );
+			vertices[row].push_back( MapVertex( col, height, row ) );
 		}
 	}
 };
@@ -40,10 +41,10 @@ void					Map::render		( )
 		glBegin(GL_TRIANGLE_STRIP);
 		for ( int x=0 ; x<map_width ; x++ )
 		{
-			v = &vertices[z][x];
+			v = &vertices[z+1][x];
 			glVertex3f( v->x, v->y, v->z );
 
-			v = &vertices[z+1][x];
+			v = &vertices[z][x];
 			glVertex3f( v->x, v->y, v->z );
 		}
 		glEnd();
